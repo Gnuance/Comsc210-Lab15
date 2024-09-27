@@ -1,4 +1,4 @@
-// Lab 14: Creates multiple color objects consisting of RGB values and outputs those object values to console.
+// Lab 15: Reads movie data from file delimeted by '\n' and populates movie objects and outputs to console.
 
 #include <iostream>
 #include <sstream>

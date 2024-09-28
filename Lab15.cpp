@@ -2,7 +2,7 @@
 // CONFIRM WRITING A GUARD STATEMENT LIKE THE ONE IN setTitle IS SAFE.
 
 #include <iostream>
-#include <fstream> // For filestream access
+#include <ifstream> // For filestream access
 #include <sstream>
 #include <string>
 #include <vector> // To store movie objects
@@ -52,7 +52,7 @@ int main()
         string movieName, year, writer = "";
 
         // Collect movie info from file
-        while (inputFile.peek())
+        while (!inputFile.eof())
         {
             getline(inputFile, movieName);
             getline(inputFile, year);

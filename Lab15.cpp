@@ -45,13 +45,15 @@ int main()
     inputFile.open(INPUT_FILE_NAME);
     if (inputFile)
     {
+        string movieName, year, writer = "";
+
         // Collect movie info from file
-        while (getline(inputFile, fileLine))
+        while (inputFile.peek())
         {
-            if (/* condition */)
-            {
-                /* code */
-            }
+            getline(inputFile, movieName);
+            getline(inputFile, year);
+            getline(inputFile, writer);
+            
             
         }        
 

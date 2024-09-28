@@ -60,12 +60,11 @@ Movie::Movie()
 }
 
 // Overloaded constructor
-Movie::Movie(string movieTitle, int year, int writer)
-// Initialized default if none specified
+Movie::Movie(string movieTitle, int year, string writer)
 {
-    setR(red);
-    setG(green);
-    setB(blue);
+    setTitle(movieTitle);
+    setYearReleased(year);
+    setScreenWriter(writer);
 }
 
 void Movie::setTitle(string movieTitle)
@@ -77,74 +76,39 @@ void Movie::setTitle(string movieTitle)
 void Movie::setYearReleased(int year)
 {
     if (year < 1800 || year > 2024) throw invalid_argument("Movie must have a valid year.");
-    {
-        /* code */
-    }
-    
-    if (Green >= 0 && Green <= 255)
-    {
-        g = Green;
-    }
-    else
-    {
-        throw invalid_argument("Green value must be between 0 and 255.");
-    }
+    yearReleased = year;
 }
-void Movie::setB(int Blue)
+void Movie::setScreenWriter(string writer)
 {
-    if (Blue >= 0 && Blue <= 255)
-    {
-        b = Blue;
-    }
-    else
-    {
-        throw invalid_argument("Blue value must be between 0 and 255.");
-    }
+    if (writer == "") throw invalid_argument("Screen writer must be a valid name.");
+    screenWriter = writer;
 }
-void Movie::setMovie(int Red, int Green, int Blue)
+string Movie::getTitle() const
 {
-    setR(Red);
-    setG(Green);
-    setB(Blue);
+    return title;
 }
-int Movie::getR() const
+int Movie::getYearReleased() const
 {
-    return r;
+    return yearReleased;
 }
-int Movie::getG() const
+string Movie::getScreenWriter() const
 {
-    return g;
-}
-int Movie::getB() const
-{
-    return b;
-}
-
-// Randomize color. Return by & for method chaining
-Movie& Movie::randomizeMovie(){
-    // Random number generator to create RGB
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dist(0, 255);  // For creating movies
-    setR(dist(gen));
-    setG(dist(gen));
-    setB(dist(gen));
-    return *this;
+    return screenWriter;
 }
 
 // Standard toString function for class
 string Movie::toString() const
 {
     stringstream oss;
-    oss << "r: " << r << " g: " << g << " b: " << b;
+    oss << "Movie Title: " << title << " Year Released: " << yearReleased << " Writer: " << screenWriter;
     string output = oss.str();
     return output;
 }
 
 // Overriden operator<<
-ostream &operator<<(ostream &os, const Movie &c)
+ostream &operator<<(ostream &os, const Movie &m)
 {
-    os << c.toString();
+    os << m.toString();
     return os;
 }
 

@@ -7,6 +7,7 @@
 #include <string>
 #include <vector> // To store movie objects
 #include <stdexcept>
+#include <ctime> // To check for valid movie year date
 
 using namespace std;
 
@@ -40,7 +41,6 @@ int main()
     ifstream inputFile;
     string fileLine = "";
     size_t lineCount = 0;
-    string movieName, year, writer = ""; // To temporarily store movie information
 
     // Try opening file and output error to console if file is no good
     inputFile.open(INPUT_FILE_NAME);
@@ -51,8 +51,9 @@ int main()
     else
     {
         // Collect movie info from file 3 lines at a time
+        string movieName, year, writer = "";
         while (getline(inputFile, movieName) && getline(inputFile, year) && getline(inputFile, writer))
-        {         
+        {
             movies.push_back(Movie(movieName, stoi(year), writer));
         }
 
@@ -65,7 +66,7 @@ int main()
     cout << "Movies:" << endl;
     for (size_t i = 0; i < movies.size(); i++)
     {
-        cout << "Movie #" << i << ": [" << movies[i].toString() << "]" << endl;
+        cout << "Movie #" << i + 1 << ": [" << movies[i].toString() << "]" << endl;
     }
 
     cout << endl
@@ -97,6 +98,10 @@ void Movie::setTitle(string movieTitle)
 }
 void Movie::setYearReleased(int year)
 {
+    // Get the timestamp for the current date and time
+    time_t timestamp;
+    time(&timestamp);
+    
     if (year < 1800 || year > 2024)
         throw invalid_argument("Movie must have a valid year.");
     yearReleased = year;

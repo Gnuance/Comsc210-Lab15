@@ -1,4 +1,5 @@
 // Lab 15: Reads movie data from file delimeted by '\n' and populates movie objects to output to console.
+// CONFIRM WRITING A GUARD STATEMENT LIKE THE ONE IN setTitle IS SAFE.
 
 #include <iostream>
 #include <fstream> // For filestream access
@@ -69,17 +70,17 @@ Movie::Movie(string movieTitle, int year, int writer)
 
 void Movie::setTitle(string movieTitle)
 {
-    if (Red >= 0 && Red <= 255)
-    {
-        r = Red;
-    }
-    else
-    {
-        throw invalid_argument("Red value must be between 0 and 255.");
-    }
+    // CONFIRM WRITING A GUARD STATEMENT LIKE THIS IS SAFE
+    if (movieTitle == "") throw invalid_argument("Movie must have a title.");
+    title = movieTitle;
 }
-void Movie::setG(int Green)
+void Movie::setYearReleased(int year)
 {
+    if (year < 1800 || year > 2024) throw invalid_argument("Movie must have a valid year.");
+    {
+        /* code */
+    }
+    
     if (Green >= 0 && Green <= 255)
     {
         g = Green;

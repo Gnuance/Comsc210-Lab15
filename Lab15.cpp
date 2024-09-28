@@ -4,9 +4,9 @@
 #include <iostream>
 #include <fstream> // For filestream access
 #include <sstream>
-#include <iomanip>
 #include <string>
 #include <vector> // To store movie objects
+#include <stdexcept>
 
 using namespace std;
 
@@ -43,7 +43,11 @@ int main()
 
     // Try opening file and output error to console if file is no good
     inputFile.open(INPUT_FILE_NAME);
-    if (inputFile)
+    if (!inputFile)
+    {
+        throw runtime_error("Error opening file: " + INPUT_FILE_NAME);
+    }
+    else
     {
         string movieName, year, writer = "";
 
@@ -53,25 +57,22 @@ int main()
             getline(inputFile, movieName);
             getline(inputFile, year);
             getline(inputFile, writer);
-            
-            
-        }        
+
+            movies.push_back(Movie(movieName, stoi(year), writer));
+        }
 
         // CLOSE THE F-ING FILE
         inputFile.close();
     }
 
+    // Movies are now held as movie objects in vector
     // Output movies to console
     cout << "Movies:" << endl;
     for (size_t i = 0; i < movies.size(); i++)
     {
-        if (i % 4 == 0 && i != 0)
+        if (i % 3 == 0 && i != 0)
             cout << endl;
-        movies[i] = Movie().randomizeMovie();                                     // Return randomized color object
-        SetForegroundMovie(movies[i].getR(), movies[i].getG(), movies[i].getB()); // Change text color to RGB values
-        cout << "Movie " << i << "::";
-        ResetMovie();
-        cout << " " << movies[i].toString() << "\t";
+        cout << movies[i].toString() << "\t";
     }
 
     cout << endl

@@ -1,6 +1,7 @@
 // Lab 15: Reads movie data from file delimeted by '\n' and populates movie objects and outputs to console.
 
 #include <iostream>
+#include <fstream> // For filestream access
 #include <sstream>
 #include <iomanip>
 #include <string>
@@ -8,8 +9,8 @@
 
 using namespace std;
 
-// Declare color class to store RGB values
-class Color
+// Declare movie class to store movie variables
+class Movie
 {
 private:
     int r;

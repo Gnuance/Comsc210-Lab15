@@ -7,7 +7,6 @@
 #include <string>
 #include <vector> // To store movie objects
 #include <stdexcept>
-#include <ctime> // To check for valid movie year date
 
 using namespace std;
 
@@ -69,8 +68,7 @@ int main()
         cout << "Movie #" << i + 1 << ": [" << movies[i].toString() << "]" << endl;
     }
 
-    cout << endl
-         << endl; // Spacing
+    cout << endl; // Spacing
     return 0;
 }
 
@@ -92,24 +90,17 @@ Movie::Movie(string movieTitle, int year, string writer)
 void Movie::setTitle(string movieTitle)
 {
     // CONFIRM WRITING A GUARD STATEMENT LIKE THIS IS SAFE
-    if (movieTitle == "")
-        throw invalid_argument("Movie must have a title.");
+    if (movieTitle == "") throw invalid_argument("Movie must have a title.");
     title = movieTitle;
 }
 void Movie::setYearReleased(int year)
 {
-    // Get the timestamp for the current date and time
-    time_t timestamp;
-    time(&timestamp);
-    
-    if (year < 1800 || year > 2024)
-        throw invalid_argument("Movie must have a valid year.");
+    if (year < 1800) throw invalid_argument("Movie must have a valid year.");
     yearReleased = year;
 }
 void Movie::setScreenWriter(string writer)
 {
-    if (writer == "")
-        throw invalid_argument("Screen writer must be a valid name.");
+    if (writer == "") throw invalid_argument("Screen writer must be a valid name.");
     screenWriter = writer;
 }
 string Movie::getTitle() const

@@ -1,11 +1,11 @@
-// Lab 15: Reads movie data from file delimeted by '\n' and populates movie objects and outputs to console.
+// Lab 15: Reads movie data from file delimeted by '\n' and populates movie objects to output to console.
 
 #include <iostream>
 #include <fstream> // For filestream access
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include <random>
+#include <vector> // To store movie objects
 
 using namespace std;
 
@@ -13,47 +13,38 @@ using namespace std;
 class Movie
 {
 private:
-    int r;
-    int g;
-    int b;
+    string title;
+    int yearReleased;
+    string screenWriter;
 
 public:
-    Color();
-    Color(int, int, int);
-    void setR(int);
-    void setG(int);
-    void setB(int);
-    void setColor(int, int, int);
-    int getR() const;
-    int getG() const;
-    int getB() const;
-    Color& randomizeColor(); // Randomizes color RGB values. Return by & for method chaining
+    Movie();
+    Movie(string, int, string);
+    void setTitle(string);
+    void setYearReleased(int);
+    void setScreenWriter(string);
+    string getTitle() const;
+    int getYearReleased() const;
+    string getScreenWriter() const;
     string toString() const; // print() method but returns a string
-    ~Color();
+    ~Movie();
 };
-
-// ADDED FROM LAB 13
-void SetForegroundColor(int, int, int); // Changes cout letter color
-void SetBackgroundColor(int, int, int); // Changes cout background color
-void ResetColor(); // Resets console output color
 
 int main()
 {
     // Initialize variables
-    const unsigned int COLORS_SIZE = 20;
-    Color colors[COLORS_SIZE] = {};
+    vector<Movie> movies = {};
 
-    // Finally, have some fun and output color codes with color
-    // Not going to color the individual elements in toString
-    cout << "COLORS:" << endl;
-    for (size_t i = 0; i < COLORS_SIZE; i++)
+    // Output movies to console
+    cout << "Movies:" << endl;
+    for (size_t i = 0; i < movies.size(); i++)
     {
         if (i % 4 == 0 && i != 0) cout << endl;
-        colors[i] = Color().randomizeColor(); // Return randomized color object
-        SetForegroundColor(colors[i].getR(), colors[i].getG(), colors[i].getB()); // Change text color to RGB values
-        cout << "Color " << i << "::";
-        ResetColor();
-        cout << " " << colors[i].toString() << "\t";        
+        movies[i] = Movie().randomizeMovie(); // Return randomized color object
+        SetForegroundMovie(movies[i].getR(), movies[i].getG(), movies[i].getB()); // Change text color to RGB values
+        cout << "Movie " << i << "::";
+        ResetMovie();
+        cout << " " << movies[i].toString() << "\t";        
     }      
 
     cout << endl << endl; // Spacing
@@ -62,13 +53,13 @@ int main()
 
 // COLOR CLASS
 // Default constructor
-Color::Color()
-    : r(0), g(0), b(0) // Initialized default if none specified
+Movie::Movie()
+    : title(""), yearReleased(0), screenWriter("") // Initialized default if none specified
 {
 }
 
 // Overloaded constructor
-Color::Color(int red, int green, int blue)
+Movie::Movie(string movieTitle, int year, int writer)
 // Initialized default if none specified
 {
     setR(red);
@@ -76,7 +67,7 @@ Color::Color(int red, int green, int blue)
     setB(blue);
 }
 
-void Color::setR(int Red)
+void Movie::setTitle(string movieTitle)
 {
     if (Red >= 0 && Red <= 255)
     {
@@ -87,7 +78,7 @@ void Color::setR(int Red)
         throw invalid_argument("Red value must be between 0 and 255.");
     }
 }
-void Color::setG(int Green)
+void Movie::setG(int Green)
 {
     if (Green >= 0 && Green <= 255)
     {
@@ -98,7 +89,7 @@ void Color::setG(int Green)
         throw invalid_argument("Green value must be between 0 and 255.");
     }
 }
-void Color::setB(int Blue)
+void Movie::setB(int Blue)
 {
     if (Blue >= 0 && Blue <= 255)
     {
@@ -109,31 +100,31 @@ void Color::setB(int Blue)
         throw invalid_argument("Blue value must be between 0 and 255.");
     }
 }
-void Color::setColor(int Red, int Green, int Blue)
+void Movie::setMovie(int Red, int Green, int Blue)
 {
     setR(Red);
     setG(Green);
     setB(Blue);
 }
-int Color::getR() const
+int Movie::getR() const
 {
     return r;
 }
-int Color::getG() const
+int Movie::getG() const
 {
     return g;
 }
-int Color::getB() const
+int Movie::getB() const
 {
     return b;
 }
 
 // Randomize color. Return by & for method chaining
-Color& Color::randomizeColor(){
+Movie& Movie::randomizeMovie(){
     // Random number generator to create RGB
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dist(0, 255);  // For creating colors
+    uniform_int_distribution<> dist(0, 255);  // For creating movies
     setR(dist(gen));
     setG(dist(gen));
     setB(dist(gen));
@@ -141,7 +132,7 @@ Color& Color::randomizeColor(){
 }
 
 // Standard toString function for class
-string Color::toString() const
+string Movie::toString() const
 {
     stringstream oss;
     oss << "r: " << r << " g: " << g << " b: " << b;
@@ -150,30 +141,12 @@ string Color::toString() const
 }
 
 // Overriden operator<<
-ostream &operator<<(ostream &os, const Color &c)
+ostream &operator<<(ostream &os, const Movie &c)
 {
     os << c.toString();
     return os;
 }
 
-Color::~Color()
+Movie::~Movie()
 {
-}
-
-// Changes cout letter color
-void SetForegroundColor(int r, int g, int b)
-{
-    cout << "\033[38;2;" << r << ";" << g << ";" << b << "m";
-}
-
-// Changes cout background color
-void SetBackgroundColor(int r, int g, int b)
-{
-    cout << "\033[48;2;" << r << ";" << g << ";" << b << "m";
-}
-
-// Resets console output color
-void ResetColor()
-{
-    cout << "\033[0m";
 }

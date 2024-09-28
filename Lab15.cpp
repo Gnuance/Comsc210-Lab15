@@ -2,7 +2,7 @@
 // CONFIRM WRITING A GUARD STATEMENT LIKE THE ONE IN setTitle IS SAFE.
 
 #include <iostream>
-#include <ifstream> // For filestream access
+#include <fstream> // For filestream access
 #include <sstream>
 #include <string>
 #include <vector> // To store movie objects
@@ -40,6 +40,7 @@ int main()
     ifstream inputFile;
     string fileLine = "";
     size_t lineCount = 0;
+    string movieName, year, writer = ""; // To temporarily store movie information
 
     // Try opening file and output error to console if file is no good
     inputFile.open(INPUT_FILE_NAME);
@@ -49,15 +50,9 @@ int main()
     }
     else
     {
-        string movieName, year, writer = "";
-
-        // Collect movie info from file
-        while (!inputFile.eof())
-        {
-            getline(inputFile, movieName);
-            getline(inputFile, year);
-            getline(inputFile, writer);
-
+        // Collect movie info from file 3 lines at a time
+        while (getline(inputFile, movieName) && getline(inputFile, year) && getline(inputFile, writer))
+        {         
             movies.push_back(Movie(movieName, stoi(year), writer));
         }
 
@@ -70,9 +65,7 @@ int main()
     cout << "Movies:" << endl;
     for (size_t i = 0; i < movies.size(); i++)
     {
-        if (i % 3 == 0 && i != 0)
-            cout << endl;
-        cout << movies[i].toString() << "\t";
+        cout << "Movie #" << i << ": [" << movies[i].toString() << "]" << endl;
     }
 
     cout << endl
@@ -131,7 +124,7 @@ string Movie::getScreenWriter() const
 string Movie::toString() const
 {
     stringstream oss;
-    oss << "Movie Title: " << title << " Year Released: " << yearReleased << " Writer: " << screenWriter;
+    oss << "Title: " << title << " -- Year Released: " << yearReleased << " -- Writer: " << screenWriter;
     string output = oss.str();
     return output;
 }
